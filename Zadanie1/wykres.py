@@ -21,15 +21,27 @@ def main():
     arrayX4=[]
     arrayY4=[]
     arraysXY=[arrayX,arrayY,arrayX1,arrayY1,arrayX2,arrayY2,arrayX3,arrayY3,arrayX4,arrayY4]
-    arrayBox=[arrayY,arrayY1,arrayY2,arrayY3,arrayY4]
+    arr1=[]
+    arr2=[]
+    arr3=[]
+    arr4=[]
+    arr5=[]
+    arrayBox=[arr1,arr2,arr3,arr4,arr5]
     i=0
     c=0
-
+    d=0
     f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
     for nameFile in namesArray:
         with open(nameFile, 'rb') as f:
             reader = csv.reader(f)
             for column in reader:
+                if(str(column[0])=="199"):
+                    for index,x in enumerate(column):
+
+                        y=float(x)*100
+                        if ((index!=0) and (index!=1)):
+                            arrayBox[d].append(y)
+
                 if((str(column[0])!="generation")and(str(column[0])!="199")and(str(column[0])!="198")and(str(column[0])!="197")and(str(column[0])!="196")):
                     sum=0
 
@@ -40,6 +52,7 @@ def main():
                     bla=int(column[1])/1000
                     arraysXY[i].append(bla)
                     arraysXY[i+1].append(sum)
+
 
         ax1.plot(arraysXY[i],arraysXY[i+1],markers[c],ls='-',ms=5,markevery=50,alpha=0.8,label=nameFile,color=colorArray[c])
         ax1.legend(loc='lower right', fontsize="small",fancybox="True",framealpha=0.5)
@@ -53,15 +66,17 @@ def main():
         ax.set_xlabel("Pokolenia")
         i=i+2
         c=c+1
+        d=d+1
 # boxplot -- na 5
-
+    for t in arrayBox[0]:
+        print t
 
 ## combine these different collections into a list
 
-    ax2.boxplot(arrayBox,notch=True,showmeans=True)
+    ax2.boxplot(arrayBox,notch=True,showmeans=True,bootstrap=10000)
 
     #ax = fig.add_subplot(111)
-    #ax.set_xticklabels(namesArray);
+    ax2.set_xticklabels(namesArray);
     plt.savefig('myplot.pdf')
     plt.close()
 
