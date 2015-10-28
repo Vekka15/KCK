@@ -54,7 +54,8 @@ def draw_plot(macierz):
     for i in np.arange(500):
         for j in np.arange(500):
             v=(macierz[i][j]-mini)/(maxi-mini)
-            img[i,j]=map_gradient(v)
+            g=2 * v * macierz[i][j] + (macierz[i][j] ** 2) * (1 - 2 * v)
+            img[i,j]=map_gradient(g)
     plt.imshow(img)
     plt.savefig('map.pdf')
 
