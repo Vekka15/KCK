@@ -67,22 +67,14 @@ def gradient_rgb_bw(v):
 
 
 def gradient_rgb_gbr(v): # red green blue
-    # if v<=0.5:
-    #     red=0
-    #     green=1-2*v
-    #     blue=2*v
-    # else:
-    #     red=2*v-1
-    #     green=0
-    #     blue=2-2*v
     if v<=0.5:
-        red=2*v
-        green=1
-        blue=0
+        red=0
+        green=1-2*v
+        blue=2*v
     else:
-        red=1
-        green=2-2*v
-        blue=0
+        red=2*v-1
+        green=0
+        blue=2-2*v
     return (red, green, blue)
 
 
@@ -157,13 +149,19 @@ def gradient_hsv_gbr(v): #dokonczyc
 
 def gradient_hsv_unknown(v):
     r=(0.8-v*0.3)*360
-
     return hsv2rgb(r, 0.9, 0.6)
 
 
 def gradient_hsv_custom(v):
-    #TODO
-    return hsv2rgb(0, 0, 0)
+    if v<0.8:
+        r=(0.8-v)*360
+        s=v+0.0000001
+        v=v+0.0000001
+    else:
+        r=(0.8-v)*360
+        s=v
+        v=v
+    return hsv2rgb(r, s, v)
 
 
 if __name__ == '__main__':
